@@ -10,7 +10,7 @@ class GithubUserRepository {
     }
 
     companion object {
-        var service: GithubUserRepository? = null
+       private var service: GithubUserRepository? = null
 
         fun getInstance(): GithubUserRepository {
             if (service == null) {
