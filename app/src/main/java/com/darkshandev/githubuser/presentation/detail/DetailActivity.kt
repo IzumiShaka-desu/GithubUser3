@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.darkshandev.githubuser.presentation.main.MainActivity
+import androidx.lifecycle.lifecycleScope
 import com.darkshandev.githubuser.data.models.ProfileUser
 import com.darkshandev.githubuser.databinding.ActivityDetailBinding
+import com.darkshandev.githubuser.presentation.main.MainActivity
 import com.darkshandev.githubuser.utils.getBitmapFromView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -22,7 +22,10 @@ import java.io.IOException
 
 
 class DetailActivity : AppCompatActivity() {
-    val TITLE = "Profile"
+    companion object {
+      private const val TITLE = "Profile"
+    }
+
     private lateinit var binding: ActivityDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
         }
         binding.fabShare.setOnClickListener {
-            GlobalScope.launch { sharePage(binding.root) }
+            lifecycleScope.launch { sharePage(binding.root) }
         }
     }
 
@@ -50,7 +53,11 @@ class DetailActivity : AppCompatActivity() {
         try {
             withContext(Dispatchers.IO) {
                 fileOutputStream = FileOutputStream(file)
-                bitmap?.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+                bitmap?.compress(
+                    Bitmap.CompressFormat.PNG,
+                    100,
+                    fileOutputStream
+                )
                 fileOutputStream.flush()
                 fileOutputStream.close()
             }
@@ -60,7 +67,11 @@ class DetailActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         val myImageFileUri: Uri =
-            FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", file)
+            FileProvider.getUriForFile(
+                this,
+                applicationContext.packageName + ".provider",
+                file
+            )
         withContext(Dispatchers.Main) {
             val intent = Intent(Intent.ACTION_SEND)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -68,7 +79,12 @@ class DetailActivity : AppCompatActivity() {
             intent.putExtra(Intent.EXTRA_STREAM, myImageFileUri)
             intent.putExtra(Intent.EXTRA_STREAM, myImageFileUri)
             intent.type = "image/png"
-            startActivity(Intent.createChooser(intent, "Share with"))
+            startActivity(
+                Intent.createChooser(
+                    intent,
+                    "Share with"
+                )
+            )
         }
     }
 
