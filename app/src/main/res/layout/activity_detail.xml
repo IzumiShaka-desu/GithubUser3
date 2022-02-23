@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:text="Following"
+            android:text="@string/Following"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/following_count" />
 
@@ -74,12 +74,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Follower"
+            android:text="@string/Follower"
             app:layout_constraintEnd_toStartOf="@+id/following_label"
             app:layout_constraintStart_toEndOf="@+id/repositories_label"
             app:layout_constraintTop_toBottomOf="@+id/follower_count" />
 
         <ImageView
+            android:contentDescription="@string/profile_image"
             android:id="@+id/detail_image_profile"
             resname="@{detailProfile.avatar}"
             android:layout_width="128dp"
@@ -172,7 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="Repositories"
+            android:text="@string/Repositories"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/repo_count" />
 
