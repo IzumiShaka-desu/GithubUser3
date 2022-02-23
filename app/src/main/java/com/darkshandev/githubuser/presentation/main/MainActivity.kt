@@ -1,4 +1,4 @@
-package com.darkshandev.githubuser
+package com.darkshandev.githubuser.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.darkshandev.githubuser.R
 import com.darkshandev.githubuser.data.models.ProfileUser
 import com.darkshandev.githubuser.data.repositories.GithubUserRepository
+import com.darkshandev.githubuser.databinding.ActivityMainBinding
 import com.darkshandev.githubuser.presentation.detail.DetailActivity
 import com.darkshandev.githubuser.presentation.main.adapter.MainListAdapter
 import com.darkshandev.githubuser.presentation.main.viewmodel.MainViewmodel
@@ -18,26 +20,25 @@ class MainActivity : AppCompatActivity(), MainListAdapter.Listener {
     companion object {
         const val EXTRA_USER = "EXTRA_USER"
     }
-
+private  lateinit var binding: ActivityMainBinding
     private lateinit var viewmodel: MainViewmodel
     private lateinit var adapterM: MainListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addInitialDataListener()
         initActivity()
-
     }
 
     private fun addInitialDataListener() {
         val content: View = findViewById(android.R.id.content)
-        // This would be called until true is not returned from the condition
         content.viewTreeObserver.addOnPreDrawListener {
             return@addOnPreDrawListener true
         }
     }
 
     private fun initActivity() {
-        setContentView(R.layout.activity_main)
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         adapterM = MainListAdapter(this)
         viewmodel = ViewModelProvider(
             this,
@@ -46,11 +47,10 @@ class MainActivity : AppCompatActivity(), MainListAdapter.Listener {
                 GithubUserRepository.getInstance()
             )
         ).get(MainViewmodel::class.java)
-        findViewById<RecyclerView>(R.id.rv_user_list).apply {
+        binding.rvUserList.apply {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
             adapter = adapterM
         }
-
 
         viewmodel.userList.observe(this) {
             adapterM.updateUserList(it)
