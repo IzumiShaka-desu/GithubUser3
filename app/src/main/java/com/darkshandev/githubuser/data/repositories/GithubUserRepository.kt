@@ -5,13 +5,14 @@ import com.google.gson.GsonBuilder
 
 class GithubUserRepository {
 
-    fun getGithubUserListFromJson(jsonString: String):List<ProfileUser>{
+    fun getGithubUserListFromJson(jsonString: String): List<ProfileUser> {
         return GsonBuilder().create().fromJson(jsonString, Array<ProfileUser>::class.java).toList()
     }
+
     companion object {
         var service: GithubUserRepository? = null
 
-        fun getInstance() : GithubUserRepository {
+        fun getInstance(): GithubUserRepository {
             if (service == null) {
                 service = GithubUserRepository()
             }
