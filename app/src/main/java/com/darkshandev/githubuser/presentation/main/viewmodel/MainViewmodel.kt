@@ -11,15 +11,15 @@ import com.darkshandev.githubuser.utils.jsonLoader
 class MainViewmodel constructor(
     private val application: Application,
     private val repository: GithubUserRepository
-    ): ViewModel() {
+) : ViewModel() {
 
-    val userList =MutableLiveData<List<ProfileUser>>()
+    val userList = MutableLiveData<List<ProfileUser>>()
 
-    fun getAllUser(){
-
-        val jsonString:String = jsonLoader(application,"users.json")
+    fun getAllUser() {
+        val jsonString: String = jsonLoader(application, "users.json")
         val users = repository.getGithubUserListFromJson(jsonString)
         userList.postValue(users)
+
     }
 
 }
