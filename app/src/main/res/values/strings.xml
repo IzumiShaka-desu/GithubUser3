@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">GithubUser</string>
     <string name="submit">submit share</string>
+    <string name="Following">Following</string>
+    <string name="Follower">Follower</string>
+    <string name="Repositories">Repositories</string>
+    <string name="profile_image">profile image</string>
 </resources>
