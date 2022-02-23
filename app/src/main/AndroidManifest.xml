@@ -14,7 +14,7 @@
             android:name=".presentation.detail.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:configChanges="uiMode"
             android:exported="true">
             <intent-filter>
