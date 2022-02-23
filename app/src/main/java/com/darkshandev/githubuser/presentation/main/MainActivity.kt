@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), MainListAdapter.Listener {
     companion object {
         const val EXTRA_USER = "EXTRA_USER"
     }
-private  lateinit var binding: ActivityMainBinding
+    private  lateinit var binding: ActivityMainBinding
     private lateinit var viewmodel: MainViewmodel
     private lateinit var adapterM: MainListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
