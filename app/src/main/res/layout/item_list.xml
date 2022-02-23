@@ -1,35 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="empty"
-            android:value="empty"
+            android:value="not provided"
             type="String" />
+
         <variable
             name="profile"
             type="com.darkshandev.githubuser.data.models.ProfileUser" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@{profile.name, default=empty}"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/tv"
-        android:text="anjjjjjj"
-        app:layout_constraintTop_toTopOf="@+id/tv"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--    <TextView-->
+        <!--        android:id="@+id/item_profile_name"-->
+        <!--        android:layout_width="0dp"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginStart="4dp"-->
+        <!--        android:layout_marginTop="8dp"-->
+        <!--        android:text="@{profile.name, default=empty}"-->
+        <!--        app:layout_constraintStart_toEndOf="parent"-->
+        <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--    <TextView-->
+        <!--        android:id="@+id/item_profile_company"-->
+        <!--        android:layout_width="0dp"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginTop="12dp"-->
+        <!--        android:text="@{profile.company, default=empty}"-->
+        <!--        app:layout_constraintStart_toStartOf="@+id/item_profile_name"-->
+        <!--        app:layout_constraintTop_toBottomOf="@+id/item_profile_name" />-->
+
+        <!--    <TextView-->
+        <!--        android:id="@+id/item_profile_follower"-->
+        <!--        android:layout_width="0dp"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginTop="8dp"-->
+        <!--        android:text="@{profile.follower, default=empty}"-->
+        <!--        app:layout_constraintStart_toStartOf="@+id/item_profile_company"-->
+        <!--        app:layout_constraintTop_toBottomOf="@+id/item_profile_company" />-->
+
+        <ImageView
+            android:id="@+id/image_profile"
+            resname="@{profile.avatar}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/location"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv" />
+
+        <TextView
+            android:id="@+id/tv"
+            style="@style/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@{profile.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_profile"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/company"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@{profile.company, default=empty}"
+            app:layout_constraintStart_toStartOf="@+id/tv"
+            app:layout_constraintTop_toBottomOf="@+id/tv" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@{profile.location, default=empty}"
+            app:layout_constraintStart_toStartOf="@+id/company"
+            app:layout_constraintTop_toBottomOf="@+id/company" />
+        <!--    <TextView-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginStart="184dp"-->
+        <!--        android:layout_marginTop="72dp"-->
+        <!--        android:text="anjjjjjj"-->
+        <!--        app:layout_constraintStart_toStartOf="@+id/tv"-->
+        <!--        app:layout_constraintTop_toTopOf="@+id/tv" />-->
+
+        <!--    <TextView-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginStart="116dp"-->
+        <!--        android:layout_marginTop="40dp"-->
+        <!--        android:text="anjjjjjj"-->
+        <!--        app:layout_constraintStart_toStartOf="@+id/tv"-->
+        <!--        app:layout_constraintTop_toTopOf="@+id/tv" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
