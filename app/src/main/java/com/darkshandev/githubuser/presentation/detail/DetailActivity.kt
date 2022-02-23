@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.darkshandev.githubuser.MainActivity
+import com.darkshandev.githubuser.presentation.main.MainActivity
 import com.darkshandev.githubuser.data.models.ProfileUser
 import com.darkshandev.githubuser.databinding.ActivityDetailBinding
 import com.darkshandev.githubuser.utils.getBitmapFromView
