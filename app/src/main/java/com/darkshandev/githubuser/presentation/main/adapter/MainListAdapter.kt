@@ -35,7 +35,6 @@ class MainListAdapter(private val listener: Listener) :
         holder.binding.root.setOnClickListener {
             listener.onItemClickListener(it, userList[position])
         }
-        Log.d("posisi", userList[position].name + position.toString())
     }
 
     override fun getItemCount(): Int = userList.size
