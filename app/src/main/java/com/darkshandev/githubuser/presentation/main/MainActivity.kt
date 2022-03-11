@@ -20,9 +20,19 @@ class MainActivity : AppCompatActivity(), MainListAdapter.Listener {
     companion object {
         const val EXTRA_USER = "EXTRA_USER"
     }
-    private  lateinit var binding: ActivityMainBinding
-    private lateinit var viewmodel: MainViewmodel
-    private lateinit var adapterM: MainListAdapter
+    private val binding by lazy<ActivityMainBinding> { ActivityMainBinding.inflate(layoutInflater) }
+    private  val viewmodel by lazy<MainViewmodel>{
+        ViewModelProvider(
+        this,
+        MainViewmodelFactory(
+            application,
+            GithubUserRepository.getInstance()
+        )
+    ).get(MainViewmodel::class.java)
+    }
+
+    private  val adapterM by lazy<MainListAdapter>{ MainListAdapter(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addInitialDataListener()
@@ -37,16 +47,8 @@ class MainActivity : AppCompatActivity(), MainListAdapter.Listener {
     }
 
     private fun initActivity() {
-        binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        adapterM = MainListAdapter(this)
-        viewmodel = ViewModelProvider(
-            this,
-            MainViewmodelFactory(
-                application,
-                GithubUserRepository.getInstance()
-            )
-        ).get(MainViewmodel::class.java)
+
         binding.rvUserList.apply {
             layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
             adapter = adapterM
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity(), MainListAdapter.Listener {
         }
 
         viewmodel.getAllUser()
+
         supportActionBar?.apply {
             setDisplayShowHomeEnabled(true)
         }
