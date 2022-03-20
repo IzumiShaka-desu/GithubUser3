@@ -65,11 +65,11 @@ dependencies {
     implementation('com.squareup.okhttp3:okhttp:5.0.0-alpha.6')
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6'
     //lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha04"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha03"
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-alpha04")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-alpha03")
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.0-alpha03'
-    implementation "androidx.activity:activity-ktx:.5.0-alpha04"
+    implementation "androidx.activity:activity-ktx:.5.0-alpha03"
     // fragment
     implementation "androidx.fragment:fragment:1.5.0-alpha03"
     implementation "androidx.fragment:fragment-ktx:1.5.0-alpha03"
@@ -80,7 +80,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
     testImplementation "app.cash.turbine:turbine:0.7.0"
-    def lifecycle_version = "2.5.0-alpha04"
+    def lifecycle_version = "2.5.0-alpha03"
 
 
     // ViewModel
@@ -92,24 +92,4 @@ dependencies {
     //navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
-
-    def roomVersion = "2.4.2"
-
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-
-    // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$roomVersion")
-
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$roomVersion")
-
-    // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation("androidx.room:room-guava:$roomVersion")
-    androidTestImplementation "androidx.room:room-testing:2.4.2"
-
-    //datastore
-    implementation "androidx.datastore:datastore-core:1.0.0"
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }
