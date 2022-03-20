@@ -11,6 +11,4 @@
     <string name="user_avatar">user avatar</string>
     <string name="search">Search</string>
     <string name="detail">Detail</string>
-    <string name="action_favorite">Favorite</string>
-    <string name="action_setting">Setting</string>
 </resources>
