@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,7 +19,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.darkshandev.githubuser.R
 import com.darkshandev.githubuser.data.models.Result
@@ -28,7 +28,6 @@ import com.darkshandev.githubuser.presentation.viewmodel.MainViewmodel
 import com.darkshandev.githubuser.utils.getBitmapFromView
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -36,8 +35,6 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
-
-@ExperimentalCoroutinesApi
 class DetailFragment : Fragment() {
     private var binding: FragmentDetailBinding? = null
     private val mainViewModel: MainViewmodel by activityViewModels()
@@ -61,13 +58,6 @@ class DetailFragment : Fragment() {
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         setupUI()
-        setupObserver()
-        return binding?.root
-
-    }
-
-
-    private fun setupObserver() {
         lifecycleScope.launch {
             mainViewModel.detailUser
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
@@ -97,17 +87,10 @@ class DetailFragment : Fragment() {
                             }
                         }
                     }
-
-                }
-
-        }
-        lifecycleScope.launch {
-            mainViewModel.favoriteUser
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect { list ->
-                    binding?.fabFav?.setImageResource(if (list.any { it.login == mainViewModel.username.value }) R.drawable.ic_baseline_favorite_red_24 else R.drawable.ic_baseline_favorite_border_24)
                 }
         }
+        return binding?.root
+
     }
 
     private fun setupUI() {
@@ -129,25 +112,18 @@ class DetailFragment : Fragment() {
                     1 -> tab.text = FollowingFragment.LABEL
                 }
             }.attach()
-            NavigationUI.setupWithNavController(toolbarDetail, navController)
-            toolbarDetail.apply {
-                setNavigationOnClickListener {
-                    activity?.onBackPressed()
-                }
-                setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.action_share -> {
-                            binding?.apply {
-                                lifecycleScope.launch { sharePage(root) }
-                            }
-                            true
-                        }
-                        else -> false
-                    }
-                }
+            (activity as? AppCompatActivity)?.let {
+
+                it.setSupportActionBar(toolbarDetail)
+                it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
             }
-            fabFav.setOnClickListener {
-                mainViewModel.addOrRemoveFavorite()
+            toolbarDetail.setNavigationOnClickListener {
+                activity?.onBackPressed()
+            }
+            fabShare.setOnClickListener {
+                binding?.apply {
+                    lifecycleScope.launch { sharePage(root) }
+                }
             }
         }
     }
