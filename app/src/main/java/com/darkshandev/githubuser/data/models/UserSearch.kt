@@ -24,3 +24,9 @@ data class UserSearch(
     val type: String?,
     val url: String?
 ) : Parcelable
+
+data class SearchResponse(
+    val incomplete_results: Boolean,
+    val items: List<UserSearch>,
+    val total_count: Int
+)
