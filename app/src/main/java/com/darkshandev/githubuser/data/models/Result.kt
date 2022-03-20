@@ -1,7 +1,5 @@
 package com.darkshandev.githubuser.data.models
 
-import kotlin.Error
-
 /**
  * Generic class for holding success response, error response and loading status
  */
