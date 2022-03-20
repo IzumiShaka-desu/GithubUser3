@@ -5,4 +5,12 @@
     <string name="Follower">Follower</string>
     <string name="Repositories">Repositories</string>
     <string name="profile_image">profile image</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tabs">tabs</string>
+    <string name="user_avatar">user avatar</string>
+    <string name="search">Search</string>
+    <string name="detail">Detail</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_setting">Setting</string>
 </resources>
