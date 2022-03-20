@@ -1,19 +1,16 @@
 package com.darkshandev.githubuser.data.repositories
 
-import androidx.annotation.WorkerThread
 import com.darkshandev.githubuser.data.datasources.RemoteDataSource
-import com.darkshandev.githubuser.data.datasources.UserDao
-import com.darkshandev.githubuser.data.models.*
+import com.darkshandev.githubuser.data.models.Result
+import com.darkshandev.githubuser.data.models.SearchResponse
+import com.darkshandev.githubuser.data.models.UserDetail
+import com.darkshandev.githubuser.data.models.UserSearch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GithubUserRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
-    private val userDao: UserDao
+    private val remoteDataSource: RemoteDataSource
 ) {
 
     private val _query = MutableStateFlow("")
@@ -21,8 +18,6 @@ class GithubUserRepository @Inject constructor(
         _query.value = query
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
     fun searchUser(): Flow<Result<SearchResponse>> = _query.debounce(300)
         .flatMapLatest { query ->
             flow {
@@ -66,22 +61,4 @@ class GithubUserRepository @Inject constructor(
         val result = remoteDataSource.getFollowerUserBy(username)
         emit(result)
     }.flowOn(Dispatchers.IO)
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun addFavorite(user: UserEntity) {
-        withContext(Dispatchers.IO) {
-            userDao.addFavoriteUser(user)
-        }
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun removeFavorite(user: UserEntity) {
-        withContext(Dispatchers.IO) {
-            userDao.delete(user)
-        }
-    }
-
-    fun getFavoriteUser() = userDao.getFavUser()
 }
