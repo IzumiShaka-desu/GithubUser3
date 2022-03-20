@@ -17,7 +17,6 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:menu="@menu/action_search_menu"
             android:layout_height="48dp" />
 
         <androidx.appcompat.widget.SearchView
