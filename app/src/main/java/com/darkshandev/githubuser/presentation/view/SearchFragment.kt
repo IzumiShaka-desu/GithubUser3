@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AlertDialog.Builder
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.darkshandev.githubuser.R
 import com.darkshandev.githubuser.data.models.Result
@@ -114,42 +110,12 @@ class SearchFragment : Fragment(), MainListAdapter.Listener {
                     )
                 )
             )
-            NavigationUI.setupWithNavController(toolbarSearch, navController)
-            toolbarSearch.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.action_favorite -> {
-                        navController.navigate(R.id.navigate_to_fav)
-                        true
-                    }
-                    R.id.action_setting -> {
-                        popDialog()
-                        true
-                    }
-                    else -> {
-                        false
-                    }
-                }
-            }
         }
-    }
-
-    private fun popDialog() {
-        context?.let {
-            val modes = arrayOf("Dark mode", "Day mode")
-
-            val builder: AlertDialog.Builder = Builder(it)
-            builder.setTitle("Select Theme Mode")
-            builder.setItems(modes) { _, which ->
-                mainViewModel.saveThemeSetting(which == 0)
-                Toast.makeText(it, "apply " + modes[which], Toast.LENGTH_SHORT).show()
-            }
-            builder.show()
-        }
-
     }
 
     override fun onItemClickListener(view: View, user: UserSearch) {
         mainViewModel.setSelectedUsername(user.login)
+
         navController.navigate(R.id.navigate_to_detail)
     }
 }
