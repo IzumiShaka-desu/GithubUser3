@@ -1,11 +1,10 @@
-package com.darkshandev.githubuser.presentation.main.adapter
+package com.darkshandev.githubuser.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.darkshandev.githubuser.data.models.ProfileUser
 import com.darkshandev.githubuser.data.models.UserSearch
 import com.darkshandev.githubuser.databinding.ItemListBinding
 import com.darkshandev.githubuser.utils.UserDiffUtils
@@ -13,13 +12,14 @@ import com.darkshandev.githubuser.utils.UserDiffUtils
 class MainListAdapter(private val listener: Listener) :
     RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
 
-    var userList = emptyList<UserSearch>()
+    private var userList = emptyList<UserSearch>()
 
     fun updateUserList(newList: List<UserSearch>) {
-        this.userList = newList
-        DiffUtil
+        val diff = DiffUtil
             .calculateDiff(UserDiffUtils(userList, newList))
-            .dispatchUpdatesTo(this)
+        this.userList = newList
+
+        diff.dispatchUpdatesTo(this)
     }
 
     inner class ViewHolder(val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root)
