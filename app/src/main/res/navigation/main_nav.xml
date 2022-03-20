@@ -24,25 +24,5 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            android:id="@+id/navigate_to_fav"
-            app:destination="@id/favoriteFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.darkshandev.githubuser.presentation.view.FavoriteFragment"
-        android:label="Favorite"
-        tools:layout="@layout/fragment_favorite">
-        <action
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            android:id="@+id/navigate_to_detailfav"
-            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>
