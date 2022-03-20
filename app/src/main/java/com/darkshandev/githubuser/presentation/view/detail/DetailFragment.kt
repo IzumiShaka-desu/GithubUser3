@@ -4,13 +4,16 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.darkshandev.githubuser.data.models.ProfileUser
-import com.darkshandev.githubuser.databinding.ActivityDetailBinding
-import com.darkshandev.githubuser.presentation.main.MainActivity
+import com.darkshandev.githubuser.databinding.FragmentDetailBinding
+import com.darkshandev.githubuser.presentation.main.viewmodel.MainViewmodel
 import com.darkshandev.githubuser.utils.getBitmapFromView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,33 +23,31 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
-
-class DetailActivity : AppCompatActivity() {
-    companion object {
-      private const val TITLE = "Profile"
-    }
-
-    private lateinit var binding: ActivityDetailBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        intent.getParcelableExtra<ProfileUser>(MainActivity.EXTRA_USER)?.apply {
-            binding.detailProfile = this
-        }
-        supportActionBar?.apply {
-            title = TITLE
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
+class DetailFragment : Fragment() {
+    private lateinit var binding: FragmentDetailBinding
+    private val mainViewModel: MainViewmodel by activityViewModels()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.fabShare.setOnClickListener {
             lifecycleScope.launch { sharePage(binding.root) }
         }
-    }
 
+        return binding.root
+
+    }
+private fun showLoading(isLoading:Boolean){
+    binding.apply {
+        progressBar.visibility=if(isLoading)View.VISIBLE else View.GONE
+        detailLayout.visibility=if(isLoading)View.GONE else View.VISIBLE
+    }
+}
     private suspend fun sharePage(view: View) {
         val bitmap = getBitmapFromView(view)
-        val cachePath = File(externalCacheDir, "my_images/")
+
+        val cachePath = File(activity?.externalCacheDir, "my_images/")
         cachePath.mkdirs()
         val file = File(cachePath, "Image_123.png")
         val fileOutputStream: FileOutputStream
@@ -66,10 +67,14 @@ class DetailActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        if (context==null){
+            Toast.makeText(context, "cannot share please try again", Toast.LENGTH_SHORT).show()
+            return
+        }
         val myImageFileUri: Uri =
             FileProvider.getUriForFile(
-                this,
-                applicationContext.packageName + ".provider",
+                context!!,
+                activity?.applicationContext?.packageName + ".provider",
                 file
             )
         withContext(Dispatchers.Main) {
@@ -88,8 +93,4 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
 }
