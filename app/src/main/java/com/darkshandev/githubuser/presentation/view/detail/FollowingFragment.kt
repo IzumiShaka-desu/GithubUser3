@@ -1,4 +1,4 @@
-package com.darkshandev.githubuser.presentation.detail
+package com.darkshandev.githubuser.presentation.view.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,21 +13,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.darkshandev.githubuser.data.models.Result
 import com.darkshandev.githubuser.data.models.UserSearch
 import com.darkshandev.githubuser.databinding.FragmentFollowingBinding
-import com.darkshandev.githubuser.presentation.main.adapter.MainListAdapter
-import com.darkshandev.githubuser.presentation.main.viewmodel.MainViewmodel
+import com.darkshandev.githubuser.presentation.adapter.MainListAdapter
+import com.darkshandev.githubuser.presentation.viewmodel.MainViewmodel
 import kotlinx.coroutines.launch
 
 class FollowingFragment : Fragment(), MainListAdapter.Listener {
-    private lateinit var binding: FragmentFollowingBinding
+    companion object {
+        const val LABEL = "Following"
+    }
+
+    private var binding: FragmentFollowingBinding? = null
     private val mainViewModel: MainViewmodel by activityViewModels()
     private val mAdapter by lazy { MainListAdapter(this) }
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentFollowingBinding.inflate(inflater, container, false)
-        binding.apply {
+        binding?.apply {
             rvFollowing.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = mAdapter
@@ -35,17 +44,17 @@ class FollowingFragment : Fragment(), MainListAdapter.Listener {
 
         }
         initObserver()
-        return binding.root
+        return binding?.root
     }
 
     private fun initObserver() {
         lifecycleScope.launch {
-            mainViewModel.followerUser
+            mainViewModel.followingUser
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { result ->
                     when (result.status) {
                         Result.Status.LOADING -> {
-                            binding.apply {
+                            binding?.apply {
                                 errorFollowing.visibility = View.GONE
                                 rvFollowing.visibility = View.GONE
                                 shimmerLayoutFollowing.visibility = View.VISIBLE
@@ -53,7 +62,7 @@ class FollowingFragment : Fragment(), MainListAdapter.Listener {
                             }
                         }
                         Result.Status.ERROR -> {
-                            binding.apply {
+                            binding?.apply {
                                 shimmerLayoutFollowing.stopShimmer()
                                 shimmerLayoutFollowing.visibility = View.GONE
                                 errorFollowing.text = result.message
@@ -62,7 +71,7 @@ class FollowingFragment : Fragment(), MainListAdapter.Listener {
                             }
                         }
                         Result.Status.SUCCESS -> {
-                            binding.apply {
+                            binding?.apply {
                                 shimmerLayoutFollowing.stopShimmer()
                                 shimmerLayoutFollowing.visibility = View.GONE
                                 errorFollowing.visibility = View.GONE
