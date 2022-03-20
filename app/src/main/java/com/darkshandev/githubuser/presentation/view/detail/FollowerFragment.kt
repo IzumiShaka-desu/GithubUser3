@@ -1,4 +1,4 @@
-package com.darkshandev.githubuser.presentation.detail
+package com.darkshandev.githubuser.presentation.view.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,29 +13,38 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.darkshandev.githubuser.data.models.Result
 import com.darkshandev.githubuser.data.models.UserSearch
 import com.darkshandev.githubuser.databinding.FragmentFollowerBinding
-import com.darkshandev.githubuser.presentation.main.adapter.MainListAdapter
-import com.darkshandev.githubuser.presentation.main.viewmodel.MainViewmodel
+import com.darkshandev.githubuser.presentation.adapter.MainListAdapter
+import com.darkshandev.githubuser.presentation.viewmodel.MainViewmodel
 import kotlinx.coroutines.launch
 
 
 class FollowerFragment : Fragment(), MainListAdapter.Listener {
-    private lateinit var binding: FragmentFollowerBinding
+    companion object {
+        const val LABEL = "Follower"
+    }
+
+    private var binding: FragmentFollowerBinding? = null
     private val mainViewModel: MainViewmodel by activityViewModels()
     private val mAdapter by lazy { MainListAdapter(this) }
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentFollowerBinding.inflate(layoutInflater, container, false)
-        binding.apply {
+        binding?.apply {
             rvFollower.apply {
                 adapter = mAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
         }
         initObserver()
-        return binding.root
+        return binding?.root
     }
 
     private fun initObserver() {
@@ -45,7 +54,7 @@ class FollowerFragment : Fragment(), MainListAdapter.Listener {
                 .collect { result ->
                     when (result.status) {
                         Result.Status.LOADING -> {
-                            binding.apply {
+                            binding?.apply {
                                 errorFollower.visibility = View.GONE
                                 rvFollower.visibility = View.GONE
                                 shimmerLayoutFollower.visibility = View.VISIBLE
@@ -53,7 +62,7 @@ class FollowerFragment : Fragment(), MainListAdapter.Listener {
                             }
                         }
                         Result.Status.ERROR -> {
-                            binding.apply {
+                            binding?.apply {
                                 shimmerLayoutFollower.stopShimmer()
                                 shimmerLayoutFollower.visibility = View.GONE
                                 errorFollower.text = result.message
@@ -62,7 +71,7 @@ class FollowerFragment : Fragment(), MainListAdapter.Listener {
                             }
                         }
                         Result.Status.SUCCESS -> {
-                            binding.apply {
+                            binding?.apply {
                                 shimmerLayoutFollower.stopShimmer()
                                 shimmerLayoutFollower.visibility = View.GONE
                                 errorFollower.visibility = View.GONE
